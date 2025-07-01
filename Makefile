@@ -22,4 +22,4 @@ sqlc:
 test: 
 	go test -v -cover ./...
 
-.PHONY: startdevdb createdb stopdb dropdb migrateup migratedown sqlc
+.PHONY: startdevdb createdb stopdb dropdb migrateup migratedown sqlc test
