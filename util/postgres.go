@@ -1,4 +1,4 @@
-package db
+package util
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func Connect(connStr string) *pgxpool.Pool {
+func ConnectPostgresDB(connStr string) *pgxpool.Pool {
 	connPool, err := pgxpool.New(context.Background(), connStr)
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v\n", err)

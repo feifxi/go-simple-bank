@@ -20,7 +20,7 @@ func TestTransferTx(t *testing.T) {
 	results := make(chan TransferTxResult)
 
 	// run n concurrent transfer transaction
-	for range n {
+	for i := 0; i < n; i++ {
 		go func() {
 			result, err := testStore.TransferTx(context.Background(), TransferTxParams{
 				FromAccountID: account1.ID,
@@ -36,11 +36,11 @@ func TestTransferTx(t *testing.T) {
 	// check results
 	existed := make(map[int]bool)
 
-	for range n {
-		err := <- errs
+	for i := 0; i < n; i++ {
+		err := <-errs
 		require.NoError(t, err)
 
-		result := <- results
+		result := <-results
 		require.NotEmpty(t, result)
 
 		// check transfer
@@ -122,11 +122,11 @@ func TestTransferTxDeadlock(t *testing.T) {
 	amount := int64(10)
 	errs := make(chan error)
 
-	for i := range n {
+	for i := 0; i < n; i++ {
 		fromAccountID := account1.ID
 		toAccountID := account2.ID
 
-		if i % 2 == 1 {
+		if i%2 == 1 {
 			fromAccountID = account2.ID
 			toAccountID = account1.ID
 		}
@@ -142,8 +142,8 @@ func TestTransferTxDeadlock(t *testing.T) {
 		}()
 	}
 
-	for range n {
-		err := <- errs
+	for i := 0; i < n; i++ {
+		err := <-errs
 		require.NoError(t, err)
 	}
 
